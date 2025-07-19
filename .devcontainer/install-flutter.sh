@@ -1,28 +1,24 @@
 #!/bin/bash
-# Exit on any error
 set -e
 
-echo "Starting Flutter installation..."
+echo "✅ [Flutter Setup] Starting installation..."
 
-# Install dependencies needed to install Flutter
-apt-get update
-apt-get install -y curl git unzip
+# Define installation directory
+FLUTTER_DIR="/home/vscode/flutter"
 
-# Clone the Flutter SDK from the stable channel to the /opt directory
-git clone https://github.com/flutter/flutter.git --depth 1 --branch stable /opt/flutter
+# Skip if already installed
+if [ -d "$FLUTTER_DIR" ]; then
+  echo "✅ Flutter is already installed at $FLUTTER_DIR"
+else
+  echo "📦 Cloning Flutter SDK into $FLUTTER_DIR..."
+  git clone https://github.com/flutter/flutter.git --depth 1 --branch stable "$FLUTTER_DIR"
+  chown -R vscode:vscode "$FLUTTER_DIR"
+fi
 
-# Set correct permissions for the new flutter directory
-chown -R vscode:vscode /opt/flutter
+# Add to PATH (will persist in container)
+echo 'export PATH="$PATH:/home/vscode/flutter/bin"' >> /home/vscode/.bashrc
 
-# Add the Flutter bin directory to the system's PATH for all users
-# This creates a new file that will be loaded by all future shell sessions
-echo 'export PATH="$PATH:/opt/flutter/bin"' > /etc/profile.d/flutter.sh
+# NOTE: Skipping `flutter precache` to save space
+echo "🚫 Skipping 'flutter precache'. Flutter will fetch what's needed when run."
 
-echo "Flutter installed. Pre-caching artifacts as the vscode user..."
-
-# Switch to the vscode user to run flutter doctor and other commands
-# This avoids running as root for flutter-specific tasks
-su - vscode -c "/opt/flutter/bin/flutter precache"
-su - vscode -c "/opt/flutter/bin/flutter doctor"
-
-echo "Flutter installation complete! ✅"
+echo "✅ [Flutter Setup] Complete! Run 'flutter doctor' manually if needed."
