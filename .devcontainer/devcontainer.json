@@ -3,22 +3,21 @@
   "image": "mcr.microsoft.com/devcontainers/universal:2",
 
   "features": {
-    // This Java feature works correctly.
+    // We know this Java feature works.
     "ghcr.io/devcontainers/features/java:1": {
       "version": "17",
       "installGradle": "true"
-    },
-    // Using the Dart template/feature you found.
-    "ghcr.io/devcontainers-community/templates/dart:1": {
-      "installFlutter": true
     }
   },
 
-  // Forward necessary ports.
-  "forwardPorts": [8080],
+  // This command now runs our manual installation script.
+  "postCreateCommand": {
+    "install-flutter": "bash .devcontainer/install-flutter.sh"
+  },
 
-  // Commands to run after the container is created.
-  "postCreateCommand": "flutter doctor",
+  "remoteUser": "root", // Run as root to allow the script to work
+
+  "forwardPorts": [8080],
 
   "customizations": {
     "vscode": {
