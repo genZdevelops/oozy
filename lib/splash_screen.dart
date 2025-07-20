@@ -1,8 +1,6 @@
 // lib/splash_screen.dart
 
 import 'dart:async';
-import 'dart:ffi';
-import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
 import 'package:flutter/material.dart';
 import 'app_colors.dart';
 import 'login_screen.dart';

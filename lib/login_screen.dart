@@ -1,7 +1,5 @@
 // lib/login_screen.dart
 
-import 'dart:nativewrappers/_internal/vm/lib/ffi_patch.dart';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'signup_screen.dart';
@@ -68,7 +66,7 @@ class LoginScreen extends StatelessWidget {
                 // TODO: Implement login logic using firebase/Springboot
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.background,
+                backgroundColor: AppColors.primaryText,
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
               ),
               child: const Text('Login', style: TextStyle(color: AppColors.background)),
